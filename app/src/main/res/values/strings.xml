@@ -18,7 +18,8 @@
     <string name="default_stocks_facebook" translatable="false">FB</string>
 
 
-    <string name="action_change_units" translatable="false">@string/pref_display_mode_key</string>
+    <string name="action_change_units_to_percentage">Display stock change as percentages</string>
+    <string name="action_change_units_to_absolute">Display stock change as absolute</string>
 
 
     <string name="dialog_title">Add Stock</string>
