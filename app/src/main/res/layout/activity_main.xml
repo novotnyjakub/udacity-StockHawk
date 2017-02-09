@@ -34,7 +34,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingEnd="@dimen/list_extra_padding"
+                android:paddingStart="@dimen/list_extra_padding" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
