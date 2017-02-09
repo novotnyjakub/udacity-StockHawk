@@ -88,10 +88,10 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         if (rawAbsoluteChange > 0) {
             changeCDString = R.string.stock_item_change_up_content_description;
-            holder.change.setBackgroundResource(R.drawable.percent_change_pill_green);
+            holder.change.setTextColor(context.getResources().getColor(R.color.material_green_700, null));
         } else {
             changeCDString = R.string.stock_item_change_down_content_description;
-            holder.change.setBackgroundResource(R.drawable.percent_change_pill_red);
+            holder.change.setTextColor(context.getResources().getColor(R.color.material_red_700, null));
         }
 
         String changeCD, changeText;
