@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.udacity.stockhawk.ui.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -20,4 +21,41 @@
             app:elevation="@dimen/toolbar_elevation" />
     </android.support.design.widget.AppBarLayout>
 
-</RelativeLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="2">
+
+        <TextView
+            android:id="@+id/symbol"
+            android:layout_marginTop="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+
+        <TextView
+            android:id="@+id/price"
+            android:gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+
+        <TextView
+            android:id="@+id/change"
+            android:gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_columnWeight="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
+    </GridLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
+
+</LinearLayout>

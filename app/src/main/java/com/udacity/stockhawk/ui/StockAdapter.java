@@ -11,11 +11,6 @@ import android.widget.TextView;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
-import com.udacity.stockhawk.data.PrefUtils;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,27 +18,12 @@ import butterknife.ButterKnife;
 class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
     private final Context context;
-    private final DecimalFormat dollarFormatWithPlus;
-    private final DecimalFormat dollarFormat;
-    private final DecimalFormat percentageFormatWithPlus;
-    private final DecimalFormat percentageFormat;
     private Cursor cursor;
     private final StockAdapterOnClickHandler clickHandler;
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
         this.clickHandler = clickHandler;
-
-        dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus.setPositivePrefix("+$");
-        percentageFormatWithPlus = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
-        percentageFormatWithPlus.setMaximumFractionDigits(2);
-        percentageFormatWithPlus.setMinimumFractionDigits(2);
-        percentageFormatWithPlus.setPositivePrefix("+");
-        percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
-        percentageFormat.setMaximumFractionDigits(2);
-        percentageFormat.setMinimumFractionDigits(2);
     }
 
     void setCursor(Cursor cursor) {
@@ -70,44 +50,8 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         cursor.moveToPosition(position);
 
-
-        String symbolText = cursor.getString(Contract.Quote.POSITION_SYMBOL);
-        String symbolCD = context.getString(R.string.stock_item_symbol_content_description, symbolText);
-        holder.symbol.setText(symbolText);
-        holder.symbol.setContentDescription(symbolCD);
-
-        String priceText = dollarFormat.format(cursor.getFloat(Contract.Quote.POSITION_PRICE));
-        String priceCD = context.getString(R.string.stock_item_price_content_description, priceText);
-        holder.price.setText(priceText);
-        holder.price.setContentDescription(priceCD);
-
-
-        int changeCDString;
-        float rawAbsoluteChange = cursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
-        float percentageChange = cursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
-
-        if (rawAbsoluteChange > 0) {
-            changeCDString = R.string.stock_item_change_up_content_description;
-            holder.change.setTextColor(context.getResources().getColor(R.color.material_green_700, null));
-        } else {
-            changeCDString = R.string.stock_item_change_down_content_description;
-            holder.change.setTextColor(context.getResources().getColor(R.color.material_red_700, null));
-        }
-
-        String changeCD, changeText;
-
-        if (PrefUtils.getDisplayMode(context)
-                .equals(context.getString(R.string.pref_display_mode_absolute_key))) {
-            changeCD = context.getString(changeCDString, dollarFormat.format(Math.abs(rawAbsoluteChange)));
-            changeText = dollarFormatWithPlus.format(rawAbsoluteChange);
-        } else {
-            changeCD = context.getString(changeCDString, percentageFormat.format(Math.abs(percentageChange / 100)));
-            changeText = percentageFormatWithPlus.format(percentageChange / 100);
-        }
-
-        holder.change.setText(changeText);
-        holder.change.setContentDescription(changeCD);
-
+        StockDisplayUtility utility = new StockDisplayUtility(context);
+        utility.formatSymbolPriceChange(cursor, holder.symbol, holder.price, holder.change);
     }
 
     @Override
