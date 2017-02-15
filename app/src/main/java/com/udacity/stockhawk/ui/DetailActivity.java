@@ -7,8 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.symbol) TextView mTextSymbol;
     @BindView(R.id.price) TextView mTextPrice;
     @BindView(R.id.change) TextView mTextChange;
+    @BindView(R.id.chart) LineChart mChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +49,16 @@ public class DetailActivity extends AppCompatActivity {
             StockDisplayUtility utility = new StockDisplayUtility(this);
             utility.formatSymbolPriceChange(cursor, mTextSymbol, mTextPrice, mTextChange);
         }
+
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+        for(int i = 1; i <= 10; ++i) {
+            entries.add(new Entry(i, i * 3));
+        }
+        LineDataSet dataSet = new LineDataSet(entries, "Label");
+        dataSet.setColor(R.color.accent);
+
+        LineData data = new LineData(dataSet);
+        mChart.setData(data);
+        mChart.invalidate();
     }
 }
