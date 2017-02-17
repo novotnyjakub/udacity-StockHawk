@@ -9,6 +9,7 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -20,6 +21,7 @@ public class StockDisplayUtility {
     private final DecimalFormat mDollarFormatWithPlus;
     private final DecimalFormat mPercentageFormatWithPlus;
     private final DecimalFormat mPercentageFormat;
+    private DateFormat mDateFormat;
 
     public StockDisplayUtility(Context context) {
         mContext = context;
@@ -34,6 +36,7 @@ public class StockDisplayUtility {
         mPercentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
         mPercentageFormat.setMaximumFractionDigits(2);
         mPercentageFormat.setMinimumFractionDigits(2);
+        mDateFormat = android.text.format.DateFormat.getDateFormat(mContext);
     }
 
     public void formatSymbolPriceChange(Cursor cursor, TextView symbol, TextView price, TextView change) {
@@ -42,7 +45,7 @@ public class StockDisplayUtility {
         symbol.setText(symbolText);
         symbol.setContentDescription(symbolCD);
 
-        String priceText = mDollarFormat.format(cursor.getFloat(Contract.Quote.POSITION_PRICE));
+        String priceText = formatPrice(cursor.getFloat(Contract.Quote.POSITION_PRICE));
         String priceCD = mContext.getString(R.string.stock_item_price_content_description, priceText);
         price.setText(priceText);
         price.setContentDescription(priceCD);
@@ -73,5 +76,13 @@ public class StockDisplayUtility {
 
         change.setText(changeText);
         change.setContentDescription(changeCD);
+    }
+
+    public String formatPrice(float price) {
+        return mDollarFormat.format(price);
+    }
+
+    public String formatDate(float dateMillis) {
+        return mDateFormat.format((long)dateMillis);
     }
 }
