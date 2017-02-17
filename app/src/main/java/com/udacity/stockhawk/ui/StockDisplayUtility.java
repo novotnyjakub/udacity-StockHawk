@@ -2,6 +2,7 @@ package com.udacity.stockhawk.ui;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 
 import com.udacity.stockhawk.R;
@@ -53,10 +54,10 @@ public class StockDisplayUtility {
 
         if (rawAbsoluteChange > 0) {
             changeCDString = R.string.stock_item_change_up_content_description;
-            change.setTextColor(mContext.getResources().getColor(R.color.material_green_700, null));
+            change.setTextColor(ContextCompat.getColor(mContext, R.color.material_green_700));
         } else {
             changeCDString = R.string.stock_item_change_down_content_description;
-            change.setTextColor(mContext.getResources().getColor(R.color.material_red_700, null));
+            change.setTextColor(ContextCompat.getColor(mContext, R.color.material_red_700));
         }
 
         String changeCD, changeText;
