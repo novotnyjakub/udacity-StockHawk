@@ -39,5 +39,6 @@
     <string name="stock_item_change_up_content_description">Value up: <xliff:g id="stock">%1$s</xliff:g></string>
     <string name="stock_item_change_down_content_description">Value down: <xliff:g id="stock">%1$s</xliff:g></string>
     <string name="button_add_stock_content_description">Add new stock</string>
+    <string name="stock_timeline">Stock Timeline</string>
 
 </resources>
