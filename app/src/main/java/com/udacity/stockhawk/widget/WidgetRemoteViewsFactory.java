@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
+import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 
 @SuppressLint("NewApi")
@@ -47,14 +48,15 @@ public class WidgetRemoteViewsFactory implements RemoteViewsFactory {
 
         String symbol = mCursor.getString(Contract.Quote.POSITION_SYMBOL);
 
-        RemoteViews mView = new RemoteViews(mContext.getPackageName(),
-                android.R.layout.simple_list_item_1);
-        mView.setTextViewText(android.R.id.text1, symbol);
-        mView.setTextColor(android.R.id.text1, Color.BLACK);
+        RemoteViews mView = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
+        mView.setTextViewText(R.id.symbol, symbol + " REST");
+        mView.setTextColor(R.id.symbol, Color.BLACK);
+        mView.setTextViewText(R.id.price, "$100.09");
+        mView.setTextViewText(R.id.change, "+4%");
 
         final Intent fillInIntent = new Intent();
         fillInIntent.putExtra(Intent.EXTRA_SUBJECT, symbol);
-        mView.setOnClickFillInIntent(android.R.id.text1, fillInIntent);
+        mView.setOnClickFillInIntent(R.id.symbol, fillInIntent);
 
         return mView;
     }
