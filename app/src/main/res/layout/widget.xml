@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/widget_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/abc_action_bar_default_height_material"
             android:background="@color/primary"
@@ -33,7 +34,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/list_stocks"
+            android:id="@+id/widget_list_stocks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

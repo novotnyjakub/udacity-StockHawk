@@ -10,6 +10,8 @@ import android.graphics.Color;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
+import com.udacity.stockhawk.ui.DetailActivity;
+
 @SuppressLint("NewApi")
 public class WidgetRemoteViewsFactory implements RemoteViewsFactory {
 
@@ -42,6 +44,11 @@ public class WidgetRemoteViewsFactory implements RemoteViewsFactory {
                 android.R.layout.simple_list_item_1);
         mView.setTextViewText(android.R.id.text1, (CharSequence) mCollections.get(position));
         mView.setTextColor(android.R.id.text1, Color.BLACK);
+
+        final Intent fillInIntent = new Intent();
+        fillInIntent.putExtra(Intent.EXTRA_SUBJECT, (String)mCollections.get(position));
+        mView.setOnClickFillInIntent(android.R.id.text1, fillInIntent);
+
         return mView;
     }
 
@@ -67,9 +74,10 @@ public class WidgetRemoteViewsFactory implements RemoteViewsFactory {
 
     private void initData() {
         mCollections.clear();
-        for (int i = 1; i <= 10; i++) {
-            mCollections.add("ListView item " + i);
-        }
+        mCollections.add("AAPL");
+        mCollections.add("FB");
+        mCollections.add("GOOG");
+        mCollections.add("YHOO");
     }
 
     @Override
