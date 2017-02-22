@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -10,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.sync.ErrorReporter;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
 
 import butterknife.BindView;
@@ -153,6 +156,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setVisibility(View.GONE);
         }
         adapter.setCursor(data);
+
+        final ErrorReporter errorReporter = new ErrorReporter(this);
+        if (errorReporter.hasError()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(getString(R.string.error_dialog_title));
+
+            String message = getString(R.string.error_dialog_message, errorReporter.getError());
+            builder.setMessage(message);
+
+            String positiveText = getString(android.R.string.ok);
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            errorReporter.clearError();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
 
