@@ -7,41 +7,31 @@ import android.preference.PreferenceManager;
 import com.udacity.stockhawk.R;
 
 public class ErrorReporter {
-    private Context mContext;
+    private SharedPreferences mPrefs;
+    private String mSyncErrorKey;
 
     public ErrorReporter(Context context) {
-        mContext = context;
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mSyncErrorKey = context.getString(R.string.pref_sync_error_ley);
     }
 
     public void setError(String symbol) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String syncErrorKey = mContext.getString(R.string.pref_sync_error_ley);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(syncErrorKey, symbol);
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString(mSyncErrorKey, symbol);
         editor.commit();
     }
 
     public boolean hasError() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String syncErrorKey = mContext.getString(R.string.pref_sync_error_ley);
-
-        return prefs.getString(syncErrorKey, "").length() > 0;
+        return mPrefs.getString(mSyncErrorKey, "").length() > 0;
     }
 
     public String getError() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String syncErrorKey = mContext.getString(R.string.pref_sync_error_ley);
-
-        return prefs.getString(syncErrorKey, "");
+        return mPrefs.getString(mSyncErrorKey, "");
     }
 
     public void clearError() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String syncErrorKey = mContext.getString(R.string.pref_sync_error_ley);
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.remove(syncErrorKey);
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.remove(mSyncErrorKey);
         editor.commit();
     }
 }

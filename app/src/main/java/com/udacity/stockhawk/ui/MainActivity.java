@@ -159,24 +159,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         final ErrorReporter errorReporter = new ErrorReporter(this);
         if (errorReporter.hasError()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(getString(R.string.error_dialog_title));
-
-            String message = getString(R.string.error_dialog_message, errorReporter.getError());
-            builder.setMessage(message);
-
-            String positiveText = getString(android.R.string.ok);
-            builder.setPositiveButton(positiveText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            errorReporter.clearError();
-                        }
-                    });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            showErrorDialog(errorReporter);
         }
+    }
+
+    private void showErrorDialog(final ErrorReporter errorReporter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(getString(R.string.error_dialog_title));
+
+        String message = getString(R.string.error_dialog_message, errorReporter.getError());
+        builder.setMessage(message);
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        errorReporter.clearError();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
