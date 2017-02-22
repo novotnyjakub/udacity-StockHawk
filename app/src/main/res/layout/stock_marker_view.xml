@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_centerHorizontal="true"
-        android:text="20/12/2015\n$136.09"
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
