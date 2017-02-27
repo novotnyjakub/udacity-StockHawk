@@ -73,15 +73,11 @@ public final class QuoteSyncJob {
 
 
                 Stock stock = quotes.get(symbol);
-                StockQuote quote = stock.getQuote();
-
-                if (quote.getPrice() == null) {
-                    PrefUtils.removeStock(context, symbol);
-
-                    ErrorReporter errorReporter = new ErrorReporter(context);
-                    errorReporter.setError(symbol);
+                if (stock == null || stock.getName() == null) {
+                    removeAndReport(context, symbol);
                     continue;
                 }
+                StockQuote quote = stock.getQuote();
 
                 float price = quote.getPrice().floatValue();
                 float change = quote.getChange().floatValue();
@@ -124,6 +120,13 @@ public final class QuoteSyncJob {
         } catch (IOException exception) {
             Timber.e(exception, "Error fetching stock quotes");
         }
+    }
+
+    private static void removeAndReport(Context context, String symbol) {
+        PrefUtils.removeStock(context, symbol);
+
+        ErrorReporter errorReporter = new ErrorReporter(context);
+        errorReporter.setError(symbol);
     }
 
     private static void schedulePeriodic(Context context) {
